@@ -59,6 +59,10 @@ export type CookieType = 'idToken' | 'accessToken' | 'refreshToken';
 
 export interface CookieSettings {
   /**
+   * Disables setting the cookie,
+   */
+  disabled?: boolean;
+  /**
    * Indicates the maximum lifetime of the cookie.
    */
   expirationDays?: number;

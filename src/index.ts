@@ -384,17 +384,25 @@ export class Authenticator {
       path: this._cookiePath,
     };
     const cookies = [
-      Cookies.serialize(
-        `${usernameBase}.accessToken`,
-        tokens.accessToken as string,
-        this._getOverridenCookieAttributes(cookieAttributes, 'accessToken'),
-      ),
+      ...(!this._cookieSettingsOverrides?.accessToken?.disabled
+        ? [
+            Cookies.serialize(
+              `${usernameBase}.accessToken`,
+              tokens.accessToken as string,
+              this._getOverridenCookieAttributes(
+                cookieAttributes,
+                'accessToken',
+              ),
+            ),
+          ]
+        : []),
       Cookies.serialize(
         `${usernameBase}.idToken`,
         tokens.idToken as string,
         this._getOverridenCookieAttributes(cookieAttributes, 'idToken'),
       ),
-      ...(tokens.refreshToken
+      ...(tokens.refreshToken &&
+      !this._cookieSettingsOverrides?.refreshToken?.disabled
         ? [
             Cookies.serialize(
               `${usernameBase}.refreshToken`,
